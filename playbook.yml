@@ -11,15 +11,10 @@
         - yum-utils
         - device-mapper-persistent-data
         - lvm2
-    - name: Configuring docker-ce repo
-      get_url:
-        url: https://download.docker.com/linux/centos/docker-ce.repo
-        dest: /etc/yum.repos.d/docker-ce.repo
-        mode: 0644
-    - name: "Installing Docker latest version"
-      yum:
-        name: docker-ce
-        state: present
+    - name: Add extras repository
+      shell: yum-config-manager --enable extras
+    - name: Install docker-ce (centos) via amazon-linux-extras packages
+      shell: "amazon-linux-extras install docker=18.06.1 -y"
     - name: Starting and Enabling Docker service
       service:
         name: docker
@@ -27,5 +22,5 @@
         enabled: yes
     - name: Pull default Docker image
       docker_image:
-        name: "{{voodoo3000/docker-nodejs-demo}}"
+        name: voodoo3000/docker-nodejs-demo
         source: pull
