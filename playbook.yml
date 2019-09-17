@@ -1,5 +1,5 @@
 ---
-- hosts: localhost
+- hosts: jenkins_ec2_slave
   become: true
   gather_facts: true
   tasks:
