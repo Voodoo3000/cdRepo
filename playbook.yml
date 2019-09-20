@@ -1,7 +1,6 @@
 ---
-- hosts: jenkins_ec2_slave
+- hosts: all
   become: true
-  gather_facts: true
   tasks:
     - name: Installing Docker Prerequisite packages
       yum:
@@ -32,11 +31,12 @@
     - name: Pull default Docker image
       docker_image:
         name: voodoo3000/docker-nodejs-demo
+        tag: "{{ build_number_param }}"
         source: pull
     - name: Create a data container
       docker_container:
         name: nodejs_app
-        image: voodoo3000/docker-nodejs-demo
+        image: "voodoo3000/docker-nodejs-demo:{{ build_number_param }}"
         state: started
         ports:
          - "3000:3000"
